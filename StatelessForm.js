@@ -11,6 +11,14 @@ import {
 let styles;
 
 export default class StatelessForm extends Component {
+	getChildContext() {
+		return {
+			register() {
+				return this;
+			},
+		};
+	}
+
 	componentDidMount() {
 		this.willFocusInput = false;
 	}
@@ -20,9 +28,9 @@ export default class StatelessForm extends Component {
 		let inputCount = 0;
 		return React.Children
 			.map(this.props.children, (child) => child).reverse().map((child) => {
+					console.log(child.props, "props");
 				if (typeof child.props.value !== 'undefined') {
 					inputCount++;
-
 					const input = React.cloneElement(child, {
 						nextInput,
 						ref: `input${inputCount}`,
@@ -36,6 +44,10 @@ export default class StatelessForm extends Component {
 				return child;
 			})
 			.reverse();
+	}
+
+	register() {
+		console.log("value");
 	}
 
 	handleNextInputFocus = (nextInput, currentInput) => {
@@ -86,6 +98,10 @@ StatelessForm.propTypes = {
 
 StatelessForm.defaultProps = {
 	style: {},
+};
+
+StatelessForm.childContextTypes = {
+	register: PropTypes.func,
 };
 
 styles = StyleSheet.create({ // eslint-disable-line

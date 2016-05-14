@@ -11,6 +11,15 @@ import {
 
 let styles;
 export default class InlineTextInput extends Component {
+	constructor(props, context) {
+		super(props, context);
+		console.log(this.props.name, context, "<<<< context");
+	}
+
+	componentWillMount() {
+		console.log('mount', this.props.name);
+	}
+
 	componentDidMount() {
 		this.scrollTo = 0;
 	}
@@ -20,15 +29,15 @@ export default class InlineTextInput extends Component {
 	};
 
 	handleFocus = (e) => {
-		const { onFocus, postFocus } = this.props;
+		const { onFocus } = this.props;
 		if (onFocus) onFocus(e);
-		postFocus(this.scrollTo);
+		// postFocus(this.scrollTo);
 	};
 
 	handleBlur = (e) => {
-		const { onBlur, postBlur } = this.props;
+		const { onBlur } = this.props;
 		if (onBlur) onBlur(e);
-		postBlur();
+		// postBlur();
 	};
 
 	focus = () => {
@@ -81,6 +90,7 @@ export default class InlineTextInput extends Component {
 	}
 
 	render() {
+		console.log('render', this.props.name);
 		const {
 			title,
 			value,
@@ -142,6 +152,11 @@ const stylePropType = PropTypes.oneOfType([
 	React.PropTypes.object,
 	React.PropTypes.arrayOf(React.PropTypes.object),
 ]);
+
+
+InlineTextInput.contextTypes = {
+	getForm: PropTypes.func,
+};
 
 InlineTextInput.propTypes = {
 	title: PropTypes.string,
